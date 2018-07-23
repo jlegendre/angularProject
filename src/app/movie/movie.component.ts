@@ -1,12 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MovieService} from '../services/movie.service';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 import {Movie} from '../model/movie.model';
 
-import express from 'express';
-import {forEach} from '@angular/router/src/utils/collection';
-import {Subscription} from 'rxjs';
+import {config, interval, Observable, Subscription} from 'rxjs';
+import {Snotify, SnotifyService} from 'ng-snotify';
 
 @Component({
   selector: 'app-movie',
@@ -16,22 +14,55 @@ import {Subscription} from 'rxjs';
 export class MovieComponent implements OnInit, OnDestroy {
 
   movies: Movie[];
-  movieSub: Subscription;
-
+  movieSubscription: Subscription;
+  secondes: number;
 
   constructor(private movieService: MovieService,
               private router: Router,
-              private httpC: HttpClient) { }
+              private snotifyService: SnotifyService) { }
 
   ngOnInit() {
 
 
+
+      this.movieSubscription = this.movieService.moviesSubject.subscribe(
+        (movies: Movie[]) => {
+          this.movies = movies;
+      });
+    console.log('movies : ' + this.movies);
     this.movieService.getMovie();
-    this.movieService.emitMovie();
+    this.startCounter();
+  }
+
+  startCounter() {
+
+    const counter = interval(1000);
+    counter.subscribe( value => {
+      this.secondes = value;
+      console.log(new Date());
+      const date = new Date(2018, 7, 24, 1, 51);
+
+
+      const min = new Date().getMinutes();
+      const hours = new Date().getHours();
+      const sec = new Date().getSeconds();
+
+
+      console.log(date.getSeconds());
+      console.log(new Date().getSeconds());
+      if ( date.getSeconds() === sec && date.getMinutes() === min && date.getHours() === hours  ) {
+        this.snotifyService.success('Vous avez un rendez-vous !');
+      }
+
+      });
+
+
 
   }
 
   ngOnDestroy(): void {
+    this.movieSubscription.unsubscribe();
+    localStorage.removeItem('valueSecondes');
   }
 
 

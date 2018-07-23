@@ -11,11 +11,11 @@ export class MovieService {
 
   constructor(private http: HttpClient) { }
   movies: Movie[] = [];
-  moviesSubject = new Subject<Movie>();
+  moviesSubject = new Subject<Movie[]>();
   private url = 'http://movieapi.azurewebsites.net/api/movie';
 
   emitMovie() {
-    //this.moviesSubject.next(this.movies);
+    this.moviesSubject.next(this.movies);
   }
 
 

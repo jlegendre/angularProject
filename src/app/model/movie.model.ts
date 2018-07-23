@@ -1,9 +1,8 @@
 export class Movie {
-  id: number;
-  Annee: Date;
 
-  constructor(public Titre: string, public Genre: string) {
-    this.Annee =  new Date();
+
+  constructor(public id: number, public titre: string, public genre: string, public annee) {
+
   }
 
 

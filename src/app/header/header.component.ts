@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {SnotifyPosition, SnotifyService, SnotifyToastConfig} from 'ng-snotify';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

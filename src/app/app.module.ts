@@ -8,7 +8,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import {MovieService} from './services/movie.service';
-
+import {SnotifyModule, SnotifyService, ToastDefaults} from 'ng-snotify';
 const appRoutes: Routes = [
   { path: 'movie', component: MovieComponent },
   { path: '', redirectTo: 'movie', pathMatch: 'full' },
@@ -25,10 +25,13 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    SnotifyModule
   ],
   providers: [
-    MovieService
+    MovieService,
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService
   ],
   bootstrap: [AppComponent]
 })
