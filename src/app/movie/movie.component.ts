@@ -16,6 +16,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   movies: Movie[];
   movieSubscription: Subscription;
   secondes: number;
+  rdezvous: any[] = [];
 
   constructor(private movieService: MovieService,
               private router: Router,
@@ -37,22 +38,24 @@ export class MovieComponent implements OnInit, OnDestroy {
   startCounter() {
 
     const counter = interval(1000);
+    const date = new Date(2018, 7, 24, 2, 43, 20);
+    const date2 = new Date(2018, 7, 24, 2, 43, 25);
+    this.rdezvous.push(date, date2);
     counter.subscribe( value => {
       this.secondes = value;
-      console.log(new Date());
-      const date = new Date(2018, 7, 24, 1, 51);
+
 
 
       const min = new Date().getMinutes();
       const hours = new Date().getHours();
       const sec = new Date().getSeconds();
 
+      this.rdezvous.forEach((value1, index) => {
+        if ( value1.getSeconds() === sec && value1.getMinutes() === min && value1.getHours() === hours  ) {
+          this.snotifyService.success('Vous avez un rendez vous !');
+        }
+      });
 
-      console.log(date.getSeconds());
-      console.log(new Date().getSeconds());
-      if ( date.getSeconds() === sec && date.getMinutes() === min && date.getHours() === hours  ) {
-        this.snotifyService.success('Vous avez un rendez-vous !');
-      }
 
       });
 
